@@ -1,0 +1,19 @@
+# Python-generated files
+__pycache__/
+*.py[oc]
+build/
+dist/
+wheels/
+*.egg-info
+
+# Virtual environments
+.venv
+
+# Jupyter Notebooks
+*.ipynb
+
+.env
+data_scripts/
+planning_generate_api/.env
+planning_generate_api/data/
+planning_generate_api/0613.ipynb
