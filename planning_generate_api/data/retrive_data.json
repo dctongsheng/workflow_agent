@@ -1,0 +1,76 @@
+{
+    "docs": [
+      {
+        "name": "SAW-ST-V8",
+        "description": "该WDL的核心功能是处理Stereo-seq测序数据，将测序读数映射到组织切片的空间位置，量化空间特征表达并可视化呈现空间表达分布。",
+        "input_files": "{\"input_file_suffix\": \".gz\"}",
+        "output_files": "{\"fllename_suffix\": \".gef\"}",
+        "title": "标准分析流程",
+        "oid": "WF09202503053KQYyK"
+      },
+      {
+        "name": "Stereo_Miner_data_qc",
+        "description": "该WDL的核心功能是对单细胞转录组数据的GEF或h5ad文件进行质量控制分析，包括统计每个细胞的总MID计数、基因类型数量以及线粒体基因百分比，并生成质控信息文件和可视化图表。",
+        "input_files": "{\"input_file_suffix\": \".gef\"}",
+        "output_files": "{\"fllename_suffix\": \"pdf\"}",
+        "title": "质控分析",
+        "oid": "WF0920250123wnWqzK"
+      },
+      {
+        "name": "Stereo_Miner_Preprocessing",
+        "description": "该WDL的核心功能是对空间转录组原始数据进行预处理，包括数据过滤（去除低质量细胞和基因）、标准化处理（使用log+scale或scTransform方法）、矩阵标准化以及识别高变基因，为下游分析提供可靠的数据基础。",
+        "input_files": "{\"input_file_suffix\": \".gef\"}",
+        "output_files": "{\n  \"fllename_suffix\": \"h5ad\"\n}",
+        "title": "数据预处理分析",
+        "oid": "WF09202501232b7Orb"
+      },
+      {
+        "name": "Stereo_Miner_Clustering",
+        "description": "该WDL工作流的核心功能是通过UMAP降维和Leiden/Louvain聚类算法对标准化表达矩阵进行分析，识别空间转录组数据中的细胞亚群并生成各簇的标记基因表。",
+        "input_files": "{\"input_file_suffix\": \".h5ad\"}",
+        "output_files": "{\n  \"fllename_suffix\": \".h5ad\"\n}",
+        "title": "细胞聚类分析",
+        "oid": "WF0920250123qb6R7b"
+      },
+      {
+        "name": "Stereo_Miner_Annotation",
+        "description": "该WDL的核心功能是手动调整单细胞空间转录组数据的聚类结果（包括合并、删除或重命名聚类），并基于调整后的聚类信息输出标记基因表和表达热图。",
+        "input_files": "{\"input_file_suffix\": \".h5ad\"}",
+        "output_files": "{\n  \"fllename_suffix\": \"h5ad\"\n}",
+        "title": "手动细胞注释分析",
+        "oid": "WF0920250123vKBy7b"
+      },
+      {
+        "name": "Stereo_Miner_Interaction",
+        "description": "该WDL工作流的核心功能是通过CellChat和Cellphonedb两种工具分析细胞簇间的相互作用，包括配体-受体互作推断、信号通路识别及可视化展示。",
+        "input_files": "{\"input_file_suffix\": \".h5ad\"}",
+        "output_files": "{\"fllename_suffix\": \"csv\"}",
+        "title": "细胞互作分析",
+        "oid": "WF09202501234n1qZn"
+      },
+      {
+        "name": "Stereo_Miner_Enrichment",
+        "description": "该WDL工作流的核心功能是：基于stereopy生成的marker_gene.csv表格，使用clusterProfiler对差异基因进行GO和KEGG功能富集分析，并生成可视化图表和结果列表。",
+        "input_files": "{\"input_file_suffix\": \".csv\"}",
+        "output_files": "{\n  \"fllename_suffix\": \".pdf,.png,.xls\"\n}",
+        "title": "富集分析",
+        "oid": "WF09202501233nPWAk"
+      },
+      {
+        "name": "Stereo_Miner_Pseudotime",
+        "description": "该WDL工作流的核心功能是使用Monocle3进行伪时间分析，推断细胞发育轨迹并计算不同细胞簇之间的伪时间关系。",
+        "input_files": "{\"input_file_suffix\": \".h5ad\"}",
+        "output_files": "{\n  \"fllename_suffix\": \"pseudotime.pdf\"\n}",
+        "title": "拟时序",
+        "oid": "WF0920250123Ob8QOK"
+      },
+      {
+        "name": "Stereo_Miner_Autoannotation",
+        "description": "该WDL的核心功能是使用SingleR工具基于参考数据集对单细胞进行自动细胞类型注释。",
+        "input_files": "{\"input_file_suffix\": \".h5ad\"}",
+        "output_files": "{\n  \"fllename_suffix\": \"h5ad\"\n}",
+        "title": "自动细胞注释",
+        "oid": "WF0920250123En2w3b"
+      }
+    ]
+  }

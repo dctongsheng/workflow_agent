@@ -15,5 +15,5 @@ wheels/
 .env
 data_scripts/
 planning_generate_api/.env
-planning_generate_api/data/
+# planning_generate_api/data/
 planning_generate_api/0613.ipynb

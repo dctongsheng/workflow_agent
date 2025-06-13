@@ -1,0 +1,118 @@
+{
+    "structured_output": {
+      "planning_steps": [
+        {
+          "step": 1,
+          "previous_step": 0,
+          "name": "SAW-ST-V8",
+          "oid": "WF09202503053KQYyK",
+          "description": "该WDL的核心功能是处理Stereo-seq测序数据，将测序读数映射到组织切片的空间位置，量化空间特征表达并可视化呈现空间表达分布。",
+          "input": {
+            "type": "mouse.fq.gz",
+            "description": "输入文件为mouse.fq.gz，用于标准分析流程。"
+          },
+          "output": {
+            "type": ".gef",
+            "description": "输出文件为GEF格式，包含空间表达分布信息。"
+          },
+          "title": "标准分析流程"
+        },
+        {
+          "step": 2,
+          "previous_step": 1,
+          "name": "Stereo_Miner_data_qc",
+          "oid": "WF0920250123wnWqzK",
+          "description": "该WDL的核心功能是对单细胞转录组数据的GEF或h5ad文件进行质量控制分析，包括统计每个细胞的总MID计数、基因类型数量以及线粒体基因百分比，并生成质控信息文件和可视化图表。",
+          "input": {
+            "type": ".gef",
+            "description": "输入文件为GEF格式，来自标准分析流程的输出。"
+          },
+          "output": {
+            "type": "pdf",
+            "description": "输出文件为PDF格式，包含质控信息图表。"
+          },
+          "title": "质控分析"
+        },
+        {
+          "step": 3,
+          "previous_step": 2,
+          "name": "Stereo_Miner_Preprocessing",
+          "oid": "WF09202501232b7Orb",
+          "description": "该WDL的核心功能是对空间转录组原始数据进行预处理，包括数据过滤（去除低质量细胞和基因）、标准化处理（使用log+scale或scTransform方法）、矩阵标准化以及识别高变基因，为下游分析提供可靠的数据基础。",
+          "input": {
+            "type": ".gef",
+            "description": "输入文件为GEF格式，来自标准分析流程的输出。"
+          },
+          "output": {
+            "type": "h5ad",
+            "description": "输出文件为h5ad格式，包含预处理后的数据。"
+          },
+          "title": "数据预处理分析"
+        },
+        {
+          "step": 4,
+          "previous_step": 3,
+          "name": "Stereo_Miner_Clustering",
+          "oid": "WF0920250123qb6R7b",
+          "description": "该WDL工作流的核心功能是通过UMAP降维和Leiden/Louvain聚类算法对标准化表达矩阵进行分析，识别空间转录组数据中的细胞亚群并生成各簇的标记基因表。",
+          "input": {
+            "type": ".h5ad",
+            "description": "输入文件为h5ad格式，来自预处理分析流程的输出。"
+          },
+          "output": {
+            "type": ".h5ad",
+            "description": "输出文件为h5ad格式，包含聚类结果。"
+          },
+          "title": "细胞聚类分析"
+        },
+        {
+          "step": 5,
+          "previous_step": 4,
+          "name": "Stereo_Miner_Annotation",
+          "oid": "WF0920250123vKBy7b",
+          "description": "该WDL的核心功能是手动调整单细胞空间转录组数据的聚类结果（包括合并、删除或重命名聚类），并基于调整后的聚类信息输出标记基因表和表达热图。",
+          "input": {
+            "type": ".h5ad",
+            "description": "输入文件为h5ad格式，来自聚类分析流程的输出。"
+          },
+          "output": {
+            "type": "h5ad",
+            "description": "输出文件为h5ad格式，包含注释后的聚类结果。"
+          },
+          "title": "手动细胞注释分析"
+        },
+        {
+          "step": 6,
+          "previous_step": 5,
+          "name": "Stereo_Miner_Interaction",
+          "oid": "WF09202501234n1qZn",
+          "description": "该WDL工作流的核心功能是通过CellChat和Cellphonedb两种工具分析细胞簇间的相互作用，包括配体-受体互作推断、信号通路识别及可视化展示。",
+          "input": {
+            "type": ".h5ad",
+            "description": "输入文件为h5ad格式，来自注释分析流程的输出。"
+          },
+          "output": {
+            "type": "csv",
+            "description": "输出文件为CSV格式，包含细胞互作分析结果。"
+          },
+          "title": "细胞互作分析"
+        },
+        {
+          "step": 7,
+          "previous_step": 6,
+          "name": "Stereo_Miner_Enrichment",
+          "oid": "WF09202501233nPWAk",
+          "description": "该WDL工作流的核心功能是：基于stereopy生成的marker_gene.csv表格，使用clusterProfiler对差异基因进行GO和KEGG功能富集分析，并生成可视化图表和结果列表。",
+          "input": {
+            "type": ".csv",
+            "description": "输入文件为CSV格式，来自互作分析流程的输出。"
+          },
+          "output": {
+            "type": ".pdf,.png,.xls",
+            "description": "输出文件为PDF、PNG和XLS格式，包含富集分析结果和可视化图表。"
+          },
+          "title": "富集分析"
+        }
+      ]
+    }
+  }
