@@ -16,7 +16,7 @@ async def generate_workflow_plan(query: str, data_meatinfo: str) -> dict:
         [("system", system_prompt), ("user", user_prompt)]
     )
 
-    with open("/Users/bws/cursor_project_202506/git25/workflow_planning_06/planning_generate_api/data/retrive_data.json", "r") as f:
+    with open("./planning_generate_api/data/retrive_data.json", "r") as f:
         docs = json.load(f)
     docs = docs["docs"]
 
