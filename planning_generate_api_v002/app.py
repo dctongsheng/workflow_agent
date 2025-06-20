@@ -1,14 +1,15 @@
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
-from typing import Optional, Dict, Any
+from typing import Optional, Dict, Any, List, Union
 # from llm import generate_workflow_plan
 import uvicorn
 from utils import process_data_meatinfo
 import json
 from intent_detection import detect_bioinformatics_intent
 from main import run_example
-
+from auto_param_filler import get_filled_parameters
+from example import get_auto_fill_parameters
 app = FastAPI(
     title="Workflow Planning API",
     description="API for generating workflow plans using LLM",
@@ -41,6 +42,18 @@ class IntentDetectionResponse(BaseModel):
     message: str
     intent: int  # 1表示生信分析相关，0表示不相关
     is_bioinformatics_related: bool
+
+class AutoFilledParamsRequest(BaseModel):
+    data_choose: Union[List[str], List[Dict[str, Any]], str]
+    query_template: Dict[str, str]
+    user: str = "abc-123"
+    conversation_id: str = ""
+    response_mode: str = "blocking"
+
+class AutoFilledParamsResponse(BaseModel):
+    code: int
+    message: str
+    filled_parameters: Optional[Dict[str, str]] = None
 
 @app.post("/intent_detection", response_model=IntentDetectionResponse)
 async def detect_intent(request: IntentDetectionRequest):
@@ -103,6 +116,44 @@ async def generate_planning(request: PlanningRequest):
         )
     except HTTPException as he:
         raise he
+    except Exception as e:
+        if "API key" in str(e):
+            raise HTTPException(
+                status_code=401,
+                detail="Invalid API key"
+            )
+        elif "rate limit" in str(e).lower():
+            raise HTTPException(
+                status_code=429,
+                detail="Rate limit exceeded"
+            )
+        else:
+            raise HTTPException(
+                status_code=500,
+                detail=f"Internal server error: {str(e)}"
+            )
+
+@app.post("/auto_filled_params", response_model=AutoFilledParamsResponse)
+async def auto_fill_parameters_endpoint(request: AutoFilledParamsRequest):
+    """
+    自动填写参数接口
+    基于data_choose和query_template自动填充参数
+    """
+    try:
+        # 调用自动填写参数函数
+        filled_params = await get_filled_parameters(
+            data_choose=request.data_choose,
+            query_template=request.query_template,
+            user=request.user,
+            conversation_id=request.conversation_id,
+            response_mode=request.response_mode
+        )
+        
+        return AutoFilledParamsResponse(
+            code=200,
+            message="Success",
+            filled_parameters=filled_params
+        )
     except Exception as e:
         if "API key" in str(e):
             raise HTTPException(

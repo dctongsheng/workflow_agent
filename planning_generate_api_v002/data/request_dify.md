@@ -222,3 +222,17 @@ curl -X 'POST' \
 }
 }'
 ```
+
+* 自动填写参数
+```
+curl -X POST 'http://172.28.140.214/v1/chat-messages' \
+--header 'Authorization: Bearer app-I9zUYHi9izQnqdDBZ5Z0cGx6' \
+--header 'Content-Type: application/json' \
+--data-raw '{
+    "inputs": {"data_choose":"['/Files/RawData/V350099495_L04_read_1.fq.gz','/Files/RawData/V350099495_L04_read_2.fq.gz','/Files/RawData/Y00862D8.barcodeToPos.h5']"},
+    "query": "{'SN': '', 'RegistJson': '', 'DataDir': '', 'ImageTar': '', 'ImagePreDir': '', 'Tissue': '', 'Reference': ''}",
+    "response_mode": "blocking",
+    "conversation_id": "",
+    "user": "abc-123"
+}'
+```
