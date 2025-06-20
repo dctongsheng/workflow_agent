@@ -1,0 +1,481 @@
+{
+    "success": true,
+    "message": "成功查询到 10 个节点和 22 个关系",
+    "data": {
+      "nodes": [
+        {
+          "name": "构建参考基因组索引",
+          "label": "scRNA-seq",
+          "model_id": 10,
+          "description": "构建样本所对应的用于比对，注释的参考基因组索引文件夹",
+          "node_id": 9,
+          "all_properties": {
+            "type_chinese": "单细胞转录组学全套分析（scRNA-seq）",
+            "description": "构建样本所对应的用于比对，注释的参考基因组索引文件夹",
+            "model_id": 10,
+            "name": "构建参考基因组索引",
+            "type": "scRNA-seq",
+            "text_input": "物种所对应的gtf和fasta文件"
+          }
+        },
+        {
+          "name": "scRNA-seq标准分析流程",
+          "label": "scRNA-seq",
+          "model_id": 11,
+          "description": "以下机cDNA和oligo数据经过过滤，比对、注释，矩阵生成，细胞分群生成标准质控分析报告",
+          "node_id": 10,
+          "all_properties": {
+            "type_chinese": "单细胞转录组学全套分析（scRNA-seq）",
+            "description": "以下机cDNA和oligo数据经过过滤，比对、注释，矩阵生成，细胞分群生成标准质控分析报告",
+            "model_id": 11,
+            "name": "scRNA-seq标准分析流程",
+            "type": "scRNA-seq",
+            "text_input": "下机数据cDNA和Oligo的fq.gz文件需对应，参考基因组索引文件夹"
+          }
+        },
+        {
+          "name": "多样本整合分析",
+          "label": "scRNA-seq",
+          "model_id": 12,
+          "description": "以多个样本下机的矩阵文件运行多样本整合后生成从数据质控、细胞聚类、注释、拟时序、互作、富集分析到最终产生交付报告全套分析流程",
+          "node_id": 11,
+          "all_properties": {
+            "type_chinese": "单细胞转录组学全套分析（scRNA-seq）",
+            "description": "以多个样本下机的矩阵文件运行多样本整合后生成从数据质控、细胞聚类、注释、拟时序、互作、富集分析到最终产生交付报告全套分析流程",
+            "model_id": 12,
+            "name": "多样本整合分析",
+            "type": "scRNA-seq",
+            "text_input": "以多个样本标准分析流程的输出文件中的FilterMatrix文件夹作为单样本输入，每个文件夹包含（barcodes.tsv.,gz，matrix.mtx.gz,fetures.tsv.gz）"
+          }
+        },
+        {
+          "name": "数据质控分析",
+          "label": "scRNA-seq",
+          "model_id": 13,
+          "description": "统计并过滤组织区域内的低质量细胞数、MID数及线粒体数",
+          "node_id": 12,
+          "all_properties": {
+            "type_chinese": "单细胞转录组学全套分析（scRNA-seq）",
+            "description": "统计并过滤组织区域内的低质量细胞数、MID数及线粒体数",
+            "model_id": 13,
+            "name": "数据质控分析",
+            "type": "scRNA-seq",
+            "text_input": "以标准分析流程的输出文件中的FilterMatrix文件夹作为单样本输入，每个文件夹包含（barcodes.tsv.,gz，matrix.mtx.gz,fetures.tsv.gz）"
+          }
+        },
+        {
+          "name": "数据预处理",
+          "label": "scRNA-seq",
+          "model_id": 14,
+          "description": "个性化选择筛选条件过滤细胞、基因数，数据标准化并筛选高变基因用于后续分析",
+          "node_id": 13,
+          "all_properties": {
+            "type_chinese": "单细胞转录组学全套分析（scRNA-seq）",
+            "description": "个性化选择筛选条件过滤细胞、基因数，数据标准化并筛选高变基因用于后续分析",
+            "model_id": 14,
+            "name": "数据预处理",
+            "type": "scRNA-seq",
+            "text_input": "输入质控后获得的h5ad文件"
+          }
+        },
+        {
+          "name": "细胞聚类分析",
+          "label": "scRNA-seq",
+          "model_id": 15,
+          "description": "依据数据预处理后的结果进行PCA主成分分析，Umap降维聚类分析，同时进行marker基因筛选",
+          "node_id": 14,
+          "all_properties": {
+            "type_chinese": "单细胞转录组学全套分析（scRNA-seq）",
+            "description": "依据数据预处理后的结果进行PCA主成分分析，Umap降维聚类分析，同时进行marker基因筛选",
+            "model_id": 15,
+            "name": "细胞聚类分析",
+            "type": "scRNA-seq",
+            "text_input": "输入预处理后获得的h5ad矩阵文件"
+          }
+        },
+        {
+          "name": "细胞注释",
+          "label": "scRNA-seq",
+          "model_id": 16,
+          "description": "聚类后的结果通过SingleR等自动细胞注释软件与自带的reference数据库比对，给cluster定义细胞类型名",
+          "node_id": 15,
+          "all_properties": {
+            "type_chinese": "单细胞转录组学全套分析（scRNA-seq）",
+            "description": "聚类后的结果通过SingleR等自动细胞注释软件与自带的reference数据库比对，给cluster定义细胞类型名",
+            "model_id": 16,
+            "name": "细胞注释",
+            "type": "scRNA-seq",
+            "text_input": "输入细胞聚类后的h5ad矩阵文件"
+          }
+        },
+        {
+          "name": "拟时序分析",
+          "label": "scRNA-seq",
+          "model_id": 17,
+          "description": "使用聚类或者细胞注释后的h5ad矩阵文件推荐细胞类群或者类型之间随时间的发育轨迹及基因的表达的拟时序变化",
+          "node_id": 16,
+          "all_properties": {
+            "type_chinese": "单细胞转录组学全套分析（scRNA-seq）",
+            "description": "使用聚类或者细胞注释后的h5ad矩阵文件推荐细胞类群或者类型之间随时间的发育轨迹及基因的表达的拟时序变化",
+            "model_id": 17,
+            "name": "拟时序分析",
+            "type": "scRNA-seq",
+            "text_input": "输入细胞聚类后或者细胞注释后的h5ad矩阵文件"
+          }
+        },
+        {
+          "name": "细胞互作分析",
+          "label": "scRNA-seq",
+          "model_id": 18,
+          "description": "使用聚类或者细胞注释后的h5ad矩阵文件推荐细胞类群或者类型之间细胞互作通路",
+          "node_id": 17,
+          "all_properties": {
+            "type_chinese": "单细胞转录组学全套分析（scRNA-seq）",
+            "description": "使用聚类或者细胞注释后的h5ad矩阵文件推荐细胞类群或者类型之间细胞互作通路",
+            "model_id": 18,
+            "name": "细胞互作分析",
+            "type": "scRNA-seq",
+            "text_input": "输入细胞聚类后或者细胞注释后的h5ad矩阵文件"
+          }
+        },
+        {
+          "name": "富集分析",
+          "label": "scRNA-seq",
+          "model_id": 19,
+          "description": "使用聚类或者细胞注释后的h5ad矩阵文件运行GO和KEGG富集分析，推断每种细胞类群或者类型的富集通路",
+          "node_id": 18,
+          "all_properties": {
+            "type_chinese": "单细胞转录组学全套分析（scRNA-seq）",
+            "description": "使用聚类或者细胞注释后的h5ad矩阵文件运行GO和KEGG富集分析，推断每种细胞类群或者类型的富集通路",
+            "model_id": 19,
+            "name": "富集分析",
+            "type": "scRNA-seq",
+            "text_input": "输入细胞聚类后或者细胞注释后的h5ad矩阵文件"
+          }
+        }
+      ],
+      "relationships": [
+        {
+          "source_name": "scRNA-seq标准分析流程",
+          "target_name": "构建参考基因组索引",
+          "source_label": "scRNA-seq",
+          "target_label": "scRNA-seq",
+          "relationship_type": "dependon",
+          "relationship_properties": {
+            "type": "dependon",
+            "virsion": 1.0
+          },
+          "relationship_id": 11,
+          "source_id": 10,
+          "target_id": 9
+        },
+        {
+          "source_name": "多样本整合分析",
+          "target_name": "scRNA-seq标准分析流程",
+          "source_label": "scRNA-seq",
+          "target_label": "scRNA-seq",
+          "relationship_type": "dependon",
+          "relationship_properties": {
+            "type": "dependon",
+            "virsion": 1.0
+          },
+          "relationship_id": 12,
+          "source_id": 11,
+          "target_id": 10
+        },
+        {
+          "source_name": "数据质控分析",
+          "target_name": "多样本整合分析",
+          "source_label": "scRNA-seq",
+          "target_label": "scRNA-seq",
+          "relationship_type": "dependon",
+          "relationship_properties": {
+            "type": "dependon",
+            "virsion": 1.0
+          },
+          "relationship_id": 13,
+          "source_id": 12,
+          "target_id": 11
+        },
+        {
+          "source_name": "数据预处理",
+          "target_name": "数据质控分析",
+          "source_label": "scRNA-seq",
+          "target_label": "scRNA-seq",
+          "relationship_type": "dependon",
+          "relationship_properties": {
+            "type": "dependon",
+            "virsion": 1.0
+          },
+          "relationship_id": 14,
+          "source_id": 13,
+          "target_id": 12
+        },
+        {
+          "source_name": "细胞聚类分析",
+          "target_name": "数据预处理",
+          "source_label": "scRNA-seq",
+          "target_label": "scRNA-seq",
+          "relationship_type": "dependon",
+          "relationship_properties": {
+            "type": "dependon",
+            "virsion": 1.0
+          },
+          "relationship_id": 15,
+          "source_id": 14,
+          "target_id": 13
+        },
+        {
+          "source_name": "细胞注释",
+          "target_name": "细胞聚类分析",
+          "source_label": "scRNA-seq",
+          "target_label": "scRNA-seq",
+          "relationship_type": "dependon",
+          "relationship_properties": {
+            "type": "dependon",
+            "virsion": 1.0
+          },
+          "relationship_id": 16,
+          "source_id": 15,
+          "target_id": 14
+        },
+        {
+          "source_name": "拟时序分析",
+          "target_name": "细胞聚类分析",
+          "source_label": "scRNA-seq",
+          "target_label": "scRNA-seq",
+          "relationship_type": "dependon",
+          "relationship_properties": {
+            "type": "dependon",
+            "virsion": 1.0
+          },
+          "relationship_id": 17,
+          "source_id": 16,
+          "target_id": 14
+        },
+        {
+          "source_name": "拟时序分析",
+          "target_name": "细胞注释",
+          "source_label": "scRNA-seq",
+          "target_label": "scRNA-seq",
+          "relationship_type": "dependon",
+          "relationship_properties": {
+            "type": "dependon",
+            "virsion": 1.0
+          },
+          "relationship_id": 18,
+          "source_id": 16,
+          "target_id": 15
+        },
+        {
+          "source_name": "细胞互作分析",
+          "target_name": "细胞聚类分析",
+          "source_label": "scRNA-seq",
+          "target_label": "scRNA-seq",
+          "relationship_type": "dependon",
+          "relationship_properties": {
+            "type": "dependon",
+            "virsion": 1.0
+          },
+          "relationship_id": 19,
+          "source_id": 17,
+          "target_id": 14
+        },
+        {
+          "source_name": "细胞互作分析",
+          "target_name": "细胞注释",
+          "source_label": "scRNA-seq",
+          "target_label": "scRNA-seq",
+          "relationship_type": "dependon",
+          "relationship_properties": {
+            "type": "dependon",
+            "virsion": 1.0
+          },
+          "relationship_id": 20,
+          "source_id": 17,
+          "target_id": 15
+        },
+        {
+          "source_name": "富集分析",
+          "target_name": "细胞聚类分析",
+          "source_label": "scRNA-seq",
+          "target_label": "scRNA-seq",
+          "relationship_type": "dependon",
+          "relationship_properties": {
+            "type": "dependon",
+            "virsion": 1.0
+          },
+          "relationship_id": 21,
+          "source_id": 18,
+          "target_id": 14
+        },
+        {
+          "source_name": "富集分析",
+          "target_name": "细胞注释",
+          "source_label": "scRNA-seq",
+          "target_label": "scRNA-seq",
+          "relationship_type": "dependon",
+          "relationship_properties": {
+            "type": "dependon",
+            "virsion": 1.0
+          },
+          "relationship_id": 22,
+          "source_id": 18,
+          "target_id": 15
+        },
+        {
+          "source_name": "构建参考基因组索引",
+          "target_name": "scRNA-seq-build-index",
+          "source_label": "scRNA-seq",
+          "target_label": "app",
+          "relationship_type": "contain",
+          "relationship_properties": {
+            "type": "contain",
+            "virsion": 1.0
+          },
+          "relationship_id": 58,
+          "source_id": 9,
+          "target_id": 67
+        },
+        {
+          "source_name": "scRNA-seq标准分析流程",
+          "target_name": "scRNA-seq_v3",
+          "source_label": "scRNA-seq",
+          "target_label": "app",
+          "relationship_type": "contain",
+          "relationship_properties": {
+            "type": "contain",
+            "virsion": 1.0
+          },
+          "relationship_id": 59,
+          "source_id": 10,
+          "target_id": 68
+        },
+        {
+          "source_name": "scRNA-seq标准分析流程",
+          "target_name": "scRNA-seq_v3.1.5",
+          "source_label": "scRNA-seq",
+          "target_label": "app",
+          "relationship_type": "contain",
+          "relationship_properties": {
+            "type": "contain",
+            "virsion": 1.0
+          },
+          "relationship_id": 60,
+          "source_id": 10,
+          "target_id": 69
+        },
+        {
+          "source_name": "数据质控分析",
+          "target_name": "SC_Miner_data_qc",
+          "source_label": "scRNA-seq",
+          "target_label": "app",
+          "relationship_type": "contain",
+          "relationship_properties": {
+            "type": "contain",
+            "virsion": 1.0
+          },
+          "relationship_id": 61,
+          "source_id": 12,
+          "target_id": 62
+        },
+        {
+          "source_name": "数据预处理",
+          "target_name": "SC_Miner_Preprocessing",
+          "source_label": "scRNA-seq",
+          "target_label": "app",
+          "relationship_type": "contain",
+          "relationship_properties": {
+            "type": "contain",
+            "virsion": 1.0
+          },
+          "relationship_id": 62,
+          "source_id": 13,
+          "target_id": 61
+        },
+        {
+          "source_name": "细胞聚类分析",
+          "target_name": "SC_Miner_Clustering",
+          "source_label": "scRNA-seq",
+          "target_label": "app",
+          "relationship_type": "contain",
+          "relationship_properties": {
+            "type": "contain",
+            "virsion": 1.0
+          },
+          "relationship_id": 63,
+          "source_id": 14,
+          "target_id": 60
+        },
+        {
+          "source_name": "细胞注释",
+          "target_name": "SC_Miner_Autoannotation",
+          "source_label": "scRNA-seq",
+          "target_label": "app",
+          "relationship_type": "contain",
+          "relationship_properties": {
+            "type": "contain",
+            "virsion": 1.0
+          },
+          "relationship_id": 64,
+          "source_id": 15,
+          "target_id": 59
+        },
+        {
+          "source_name": "拟时序分析",
+          "target_name": "SC_Miner_Pseudotime",
+          "source_label": "scRNA-seq",
+          "target_label": "app",
+          "relationship_type": "contain",
+          "relationship_properties": {
+            "type": "contain",
+            "virsion": 1.0
+          },
+          "relationship_id": 65,
+          "source_id": 16,
+          "target_id": 57
+        },
+        {
+          "source_name": "细胞互作分析",
+          "target_name": "SC_Miner_Interaction",
+          "source_label": "scRNA-seq",
+          "target_label": "app",
+          "relationship_type": "contain",
+          "relationship_properties": {
+            "type": "contain",
+            "virsion": 1.0
+          },
+          "relationship_id": 66,
+          "source_id": 17,
+          "target_id": 56
+        },
+        {
+          "source_name": "富集分析",
+          "target_name": "SC_Miner_Enrichment",
+          "source_label": "scRNA-seq",
+          "target_label": "app",
+          "relationship_type": "contain",
+          "relationship_properties": {
+            "type": "contain",
+            "virsion": 1.0
+          },
+          "relationship_id": 67,
+          "source_id": 18,
+          "target_id": 55
+        }
+      ],
+      "statistics": {
+        "total_nodes": 10,
+        "total_relationships": 22,
+        "label_statistics": {
+          "scRNA-seq": 10
+        },
+        "relationship_type_statistics": {
+          "dependon": 12,
+          "contain": 10
+        },
+        "queried_label": "scRNA-seq",
+        "limit": 25
+      }
+    }
+  }
