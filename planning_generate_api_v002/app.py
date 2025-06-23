@@ -44,7 +44,7 @@ class IntentDetectionResponse(BaseModel):
     is_bioinformatics_related: bool
 
 class AutoFilledParamsRequest(BaseModel):
-    data_choose: Union[List[str], List[Dict[str, Any]], str]
+    data_meatinfo: Dict[str, Any]
     query_template: Dict[str, str]
     user: str = "abc-123"
     conversation_id: str = ""
@@ -139,10 +139,33 @@ async def auto_fill_parameters_endpoint(request: AutoFilledParamsRequest):
     自动填写参数接口
     基于data_choose和query_template自动填充参数
     """
+    # print(f"接收到的data_choose: {request.data_meatinfo}")
+    rrr = request.data_meatinfo
+    # print(rrr["records"][0])
+    res = []
+    for i in rrr["records"]:
+        sun_param={}
+        for key,value in i.items():
+            if key in ["name","omics","menuPath","chipId"] and value != "":
+                
+                sun_param[key]=value
+        res.append(sun_param)
+    print(res)
+
+    # processed_meta = get_auto_fill_parameters(request.data_meatinfo)
+    # print(processed_meta)
+    # processed_meta_json = json.loads(processed_meta)
+    
+    # print(processed_meta_json)
+    # return AutoFilledParamsResponse(
+    #     code=200,
+    #     message="Success",
+    #     filled_parameters={"test":"test"}
+    # )
     try:
         # 调用自动填写参数函数
         filled_params = await get_filled_parameters(
-            data_choose=request.data_choose,
+            data_choose=res,  # 直接传递，不转换为JSON字符串
             query_template=request.query_template,
             user=request.user,
             conversation_id=request.conversation_id,

@@ -13,7 +13,7 @@ data_meatinfo3 = {
     "omics": "scRNA-seq",
 }
 
-auto_fill_parameters_data= [
+auto_fill_parameters_data= {"records":[
   {
     "checkCode": "4113011359",
     "commonTag": "un_is_send_cnsa",
@@ -302,11 +302,11 @@ auto_fill_parameters_data= [
     "stitchedImage": "",
     "menuName": "RawData"
   }
-]
+]}
 
 def get_auto_fill_parameters(params_meta_data):
     res = []
-    for i in params_meta_data:
+    for i in params_meta_data["records"]:
         sun_param={}
         for key,value in i.items():
             if key in ["name","omics","menuPath","chipId"] and value != "":

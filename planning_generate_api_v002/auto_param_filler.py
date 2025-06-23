@@ -76,7 +76,7 @@ class AutoParamFiller:
     
     async def auto_fill_parameters(
         self,
-        data_choose: Union[List[str], str],
+        data_choose: Dict[str, str],
         query_template: Dict[str, str],
         user: str = "abc-123",
         response_mode: str = "blocking",
@@ -179,7 +179,7 @@ class AutoParamFiller:
 auto_param_filler = AutoParamFiller()
 
 async def auto_fill_parameters(
-    data_choose: Union[List[str], str],
+    data_choose: Dict[str, Any],
     query_template: Dict[str, str],
     user: str = "abc-123",
     conversation_id: str = "",
@@ -203,7 +203,7 @@ async def auto_fill_parameters(
     )
 
 async def get_filled_parameters(
-    data_choose: Union[List[str], str],
+    data_choose: Dict[str, Any],
     query_template: Dict[str, str],
     user: str = "abc-123",
     conversation_id: str = "",

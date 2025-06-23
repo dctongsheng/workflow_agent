@@ -21,6 +21,7 @@ def get_docs(data_meatinfo):
         new_dic["description"]=i["all_properties"]["description"]
         new_dic["dependon"]=i["dependon"]
         new_dic["text_input"]=i["all_properties"]["text_input"]
+        new_dic["input_suffix"]=i["all_properties"]["input_suffix"]
         new_list.append(new_dic)
     res["nodes"]=new_list
     # print(res)
@@ -138,12 +139,13 @@ async def main():
         # 测试调用
         meta_info=data_meatinfo1
         docs=get_docs(meta_info)
-        result = await call_dify_workflow(
-            query="细胞注释",
-            data_meatinfo=meta_info["name"],
-            docs=str(docs)
-        )
-        print("API调用成功:")
+        print(docs)
+        # result = await call_dify_workflow(
+        #     query="细胞注释",
+        #     data_meatinfo=meta_info["name"],
+        #     docs=str(docs)
+        # )
+        # print("API调用成功:")
         # print(json.dumps(result, ensure_ascii=False, indent=2))
         
     except DifyAPIError as e:

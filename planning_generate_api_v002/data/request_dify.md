@@ -224,6 +224,7 @@ curl -X 'POST' \
 ```
 
 * 自动填写参数
+请求：
 ```
 curl -X POST 'http://172.28.140.214/v1/chat-messages' \
 --header 'Authorization: Bearer app-I9zUYHi9izQnqdDBZ5Z0cGx6' \
@@ -235,4 +236,8 @@ curl -X POST 'http://172.28.140.214/v1/chat-messages' \
     "conversation_id": "",
     "user": "abc-123"
 }'
+```
+输出：
+```
+{"event": "message", "task_id": "892a2597-7b88-45b4-99e7-463db6e177da", "id": "06881e2c-5fbf-4a4a-953c-6793b23f1a6f", "message_id": "06881e2c-5fbf-4a4a-953c-6793b23f1a6f", "conversation_id": "88549684-6002-4c11-b39d-7b4454f272c7", "mode": "advanced-chat", "answer": "{\n  \"SN\": \"V350099495_L04\",\n  \"RegistJson\": \"\",\n  \"DataDir\": \"/Files/RawData\",\n  \"ImageTar\": \"\",\n  \"ImagePreDir\": \"\",\n  \"Tissue\": \"\",\n  \"Reference\": \"/Files/RawData/Y00862D8.barcodeToPos.h5\"\n}", "metadata": {"usage": {"prompt_tokens": 177, "prompt_unit_price": "2", "prompt_price_unit": "0.000001", "prompt_price": "0.000354", "completion_tokens": 72, "completion_unit_price": "8", "completion_price_unit": "0.000001", "completion_price": "0.000576", "total_tokens": 249, "total_price": "0.00093", "currency": "RMB", "latency": 5.784288950264454}}, "created_at": 1750409398}
 ```
