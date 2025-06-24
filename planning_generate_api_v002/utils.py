@@ -9,12 +9,12 @@ def merge_list_to_dict(input_list):
         for key, value in item.items():
             if key in result:
                 # 处理 'omics' 字段
-                if key == 'omics':
+                if key in ['omics','上一步的节点名称','是否为原始数据','wfTag']:
                     # 记录出现次数
                     if isinstance(result[key], dict):
                         result[key][value] += 1
                     else:
-                        result[key] = {result[key]: 1, value: 1}
+                        result[key] = result[key]
                 else:
                     # 处理其他字段
                     if isinstance(result[key], list):
@@ -34,6 +34,8 @@ def merge_list_to_dict(input_list):
         # 不需要额外的处理
 
     return result
+
+from find_first_node.utils import workflow_dict
 
 async def process_data_meatinfo(data_meatinfo: str) -> str:
     """
@@ -82,12 +84,14 @@ async def process_data_meatinfo(data_meatinfo: str) -> str:
             if "omics" in record:
                 processed_record["omics"] = record["omics"]
                 
-            if "wfTag" in record:
+            if "wfTag" in record and record["wfTag"] in workflow_dict:
                 processed_record["wfTag"] = record["wfTag"]
                 # 判断是否为原始数据
-                processed_record["is_raw_data"] = True
+                # processed_record["是否为原始数据"] = "是"
+                processed_record["start_node"] = workflow_dict[record["wfTag"]]
             else:
-                processed_record["is_raw_data"] = False
+                processed_record["start_node"] = ""
+                # processed_record["上一步的节点名称"] = ""
             # 只添加包含必要字段的记录
             # if all(key in processed_record for key in ["name", "omics", "wfTag"]):
             processed_records.append(processed_record)

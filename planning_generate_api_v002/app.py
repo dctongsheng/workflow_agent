@@ -92,20 +92,20 @@ async def detect_intent(request: IntentDetectionRequest):
 async def generate_planning(request: PlanningRequest):
     try:
         # 处理data_meatinfo
-        # print(json.dumps(request.data_meatinfo))
-        processed_meta = await process_data_meatinfo(json.dumps(request.data_meatinfo))
-        processed_meta_json = json.loads(processed_meta)
-        # print(processed_meta_json)
+        # print("request.data_meatinfo",json.dumps(request.data_meatinfo))
+        # processed_meta = await process_data_meatinfo(json.dumps(request.data_meatinfo))
+        # processed_meta_json = json.loads(processed_meta)
+        # # print(processed_meta_json)
         
-        if not processed_meta_json["success"]:
-            raise HTTPException(
-                status_code=400,
-                detail=processed_meta_json["message"]
-            )
+        # if not processed_meta_json["success"]:
+        #     raise HTTPException(
+        #         status_code=400,
+        #         detail=processed_meta_json["message"]
+        #     )
 
         # 调用LLM生成工作流计划
         result = await run_example(
-            meta_info=processed_meta_json["data"],
+            meta_info=request.data_meatinfo,
             query=request.query
         )
 
