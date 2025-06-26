@@ -4,8 +4,8 @@ import json
 
 data_meatinfo = {
     "records": [
-        {"name": "1111.fq.gz", "omics": "genomics", "wfTag": "", "is_raw_data": False},
-        {"name": "input.json", "omics": "genomics", "wfTag": "SAW-ST-V8", "is_raw_data": True}
+        {"name": "1111.gef", "omics": "genomics", "wfTag": "", "is_raw_data": False},
+        {"name": "input.gef", "omics": "genomics", "wfTag": "","is_raw_data": True}
     ]
 }
 # 将字典转换为JSON字符串

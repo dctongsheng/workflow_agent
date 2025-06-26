@@ -80,6 +80,7 @@ async def process_data_meatinfo(data_meatinfo: str) -> str:
             # 提取必要字段
             if "name" in record:
                 processed_record["name"] = record["name"]
+                file_suffix=record["name"].split(".")[-1]
                 
             if "omics" in record:
                 processed_record["omics"] = record["omics"]
@@ -89,8 +90,16 @@ async def process_data_meatinfo(data_meatinfo: str) -> str:
                 # 判断是否为原始数据
                 # processed_record["是否为原始数据"] = "是"
                 processed_record["start_node"] = workflow_dict[record["wfTag"]]
-            else:
-                processed_record["start_node"] = ""
+                print("存在wftag")
+            elif "wfTag" in record and record["wfTag"] not in workflow_dict:
+                if file_suffix=="gef":
+                    print("wftag不在workflow_dict中:",record["wfTag"])
+                    processed_record["start_node"] = "SAW标准分析"
+            elif "wfTag" not in record and file_suffix=="gef":
+                print("不存在wftag")
+                processed_record["start_node"] = "SAW标准分析"
+                # processed_record["start_node"] = ""
+
                 # processed_record["上一步的节点名称"] = ""
             # 只添加包含必要字段的记录
             # if all(key in processed_record for key in ["name", "omics", "wfTag"]):

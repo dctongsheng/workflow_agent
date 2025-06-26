@@ -454,3 +454,22 @@ curl -X 'POST' \
 }
 }'
 ```
+
+```
+curl -X 'POST' \
+  'http://localhost:8008/planning_generate' \
+  -H 'accept: application/json' \
+  -H 'Content-Type: application/json' \
+  -d '{
+ "query": "帮我进行聚类分析",
+  "data_meatinfo":{
+      "records": [
+        {
+          "name": "1.index",
+          "omics": "STOmics",
+          "is_raw_data": false,
+          "wfTag": "workflow"
+        }
+      ]
+    }
+  }'

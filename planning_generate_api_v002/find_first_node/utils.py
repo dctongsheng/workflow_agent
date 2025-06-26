@@ -4,6 +4,7 @@ import json
 workflow_dict = {
     "SAW-ST-V8-makeRef": "构建参考基因组索引",
     "SAW-ST-V8": "SAW标准分析",
+    "SAW-ST-V7": "SAW标准分析",
     "Stereo_Miner_data_qc": "数据质控分析",
     "Stereo_Miner_Preprocessing": "数据预处理",
     "Stereo_Miner_Clustering": "细胞聚类分析",
