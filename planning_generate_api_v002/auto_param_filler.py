@@ -76,7 +76,7 @@ class AutoParamFiller:
     
     async def auto_fill_parameters(
         self,
-        data_choose: Dict[str, str],
+        data_choose: Dict[str, Any],
         query_template: Dict[str, str],
         user: str = "abc-123",
         response_mode: str = "blocking",

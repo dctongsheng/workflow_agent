@@ -141,31 +141,22 @@ async def auto_fill_parameters_endpoint(request: AutoFilledParamsRequest):
     """
     # print(f"接收到的data_choose: {request.data_meatinfo}")
     rrr = request.data_meatinfo
+    from data_process.data_p import get_data_from_auto_fill_params
     # print(rrr["records"][0])
-    res = []
-    for i in rrr["records"]:
-        sun_param={}
-        for key,value in i.items():
-            if key in ["name","omics","menuPath","chipId"] and value != "":
+    # res = []
+    # for i in rrr["records"]:
+    #     sun_param={}
+    #     for key,value in i.items():
+    #         if key in ["name","omics","menuPath","chipId"] and value != "":
                 
-                sun_param[key]=value
-        res.append(sun_param)
+    #             sun_param[key]=value
+    #     res.append(sun_param)
+    res=get_data_from_auto_fill_params(rrr)
     print(res)
-
-    # processed_meta = get_auto_fill_parameters(request.data_meatinfo)
-    # print(processed_meta)
-    # processed_meta_json = json.loads(processed_meta)
-    
-    # print(processed_meta_json)
-    # return AutoFilledParamsResponse(
-    #     code=200,
-    #     message="Success",
-    #     filled_parameters={"test":"test"}
-    # )
     try:
         # 调用自动填写参数函数
         filled_params = await get_filled_parameters(
-            data_choose=res,  # 直接传递，不转换为JSON字符串
+            data_choose=str(res),  # 直接传递，不转换为JSON字符串
             query_template=request.query_template,
             user=request.user,
             conversation_id=request.conversation_id,
