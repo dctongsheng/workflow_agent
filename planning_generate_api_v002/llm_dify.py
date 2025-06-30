@@ -190,8 +190,8 @@ async def main():
         # print(docs)
         # start_node=find_first_node(meta_info)
         start_node=res_dict["data"]["start_node"]
-        start_node=",".join(set(start_node))
-        data_name=",".join(set(res_dict["data"]["name"]))
+        start_node=start_node
+        data_name=res_dict["data"]["name"]
         print(start_node)
         result = await call_dify_workflow(
             query="细胞互作分析",
