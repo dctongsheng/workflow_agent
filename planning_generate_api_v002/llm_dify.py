@@ -115,10 +115,10 @@ class DifyClient:
         
         payload = {
             "inputs": {
-                "query": query,
-                "data_meatinfo": data_meatinfo,
+                "query": str(query),
+                "data_meatinfo": str(data_meatinfo),
                 "docs": docs,
-                "start_node": start_node
+                "start_node": str(start_node)
             },
             "response_mode": response_mode,
             "user": user
