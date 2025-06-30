@@ -102,9 +102,10 @@ async def run_example(meta_info,query):
         # print(docs)
         # start_node=find_first_node(meta_info)
         start_node=res_dict["data"]["start_node"]
-        start_node=",".join(set(start_node))
+        print("start_node",start_node)
+        start_node=start_node
         data_name=",".join(set(res_dict["data"]["name"]))
-        print(start_node)
+        print("data_name",data_name)
         result = await call_dify_workflow(
             query=query,
             data_meatinfo=data_name,

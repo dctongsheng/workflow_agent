@@ -97,6 +97,8 @@ async def process_data_meatinfo(data_meatinfo: str) -> str:
                     processed_record["start_node"] = "SAW标准分析"
                 if file_suffix=="h5ad":
                     processed_record["start_node"] = "数据质控分析"
+                else:
+                    processed_record["start_node"] = ""
             elif "wfTag" not in record and file_suffix=="gef":
                 print("不存在wftag")
                 processed_record["start_node"] = "SAW标准分析"
