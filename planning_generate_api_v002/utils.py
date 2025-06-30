@@ -9,7 +9,7 @@ def merge_list_to_dict(input_list):
         for key, value in item.items():
             if key in result:
                 # 处理 'omics' 字段
-                if key in ['omics','上一步的节点名称','是否为原始数据','wfTag']:
+                if key in ['omics']:
                     # 记录出现次数
                     if isinstance(result[key], dict):
                         result[key][value] += 1
@@ -35,9 +35,57 @@ def merge_list_to_dict(input_list):
 
     return result
 
-from find_first_node.utils import workflow_dict
 
-async def process_data_meatinfo(data_meatinfo: str) -> str:
+def process_data_0630(input_list):
+    # 初始化结果字典
+    result = {
+        "name": [],
+        "start_node": [],
+        "omics": ""
+    }
+    
+    # 遍历输入列表
+    for item in input_list:
+        # 添加 name 和 start_node
+        result["name"].append(item.get("name", ""))
+        result["start_node"].append(item.get("start_node", ""))
+        
+        # 更新 omics，取最后一个不为空的值
+        if item.get("omics"):
+            result["omics"] = item["omics"]
+    
+    return result
+from find_first_node.utils import workflow_dict,app_dict
+
+import re
+
+def extract_standard_name(input_str):
+    """
+    从输入字符串中提取标准化名称：
+    - 去掉 "Copy-" 前缀（如果存在）
+    - 去掉 "(数字)" 后缀（如果存在）
+    - 返回剩余部分
+    """
+    # 1. 去掉 "Copy-" 前缀
+    if input_str.startswith("Copy-"):
+        input_str = input_str[5:]
+    
+    # 2. 去掉 "(数字)" 后缀
+    input_str = re.sub(r'\(\d+\)$', '', input_str)
+    
+    return input_str
+
+def extract_standard_name_str(input_str):
+    new_omics_ = extract_standard_name(input_str)
+    if new_omics_ in app_dict:
+        new_omics_ = app_dict[new_omics_]
+    else:   
+        print("new_omics_",new_omics_)
+        new_omics_ = "查不到该组学："+new_omics_
+
+    return new_omics_
+
+async def process_data_meatinfo(data_meatinfo: str):
     """
     处理data_meatinfo的JSON数据
     
@@ -50,6 +98,7 @@ async def process_data_meatinfo(data_meatinfo: str) -> str:
     try:
         # 解析JSON字符串
         data = json.loads(data_meatinfo)
+        # print("data",data)
         
         # 检查数据格式
         if not isinstance(data, dict) or "records" not in data:
@@ -71,48 +120,67 @@ async def process_data_meatinfo(data_meatinfo: str) -> str:
         # 处理每条记录
         processed_records = []
         for record in records:
-            # print(record)
+            
             if not isinstance(record, dict):
                 continue
                 
-            processed_record = {}
             
-            # 提取必要字段
-            if "name" in record:
-                processed_record["name"] = record["name"]
-                file_suffix=record["name"].split(".")[-1]
-                
-            if "omics" in record:
-                processed_record["omics"] = record["omics"]
-                
-            if "wfTag" in record and record["wfTag"] in workflow_dict:
-                processed_record["wfTag"] = record["wfTag"]
-                # 判断是否为原始数据
-                # processed_record["是否为原始数据"] = "是"
-                processed_record["start_node"] = workflow_dict[record["wfTag"]]
-                print("存在wftag")
-            elif "wfTag" in record and record["wfTag"] not in workflow_dict:
-                if file_suffix=="gef":
-                    print("wftag不在workflow_dict中:",record["wfTag"])
-                    processed_record["start_node"] = "SAW标准分析"
-                if file_suffix=="h5ad":
-                    processed_record["start_node"] = "数据质控分析"
-                else:
-                    processed_record["start_node"] = ""
-            elif "wfTag" not in record and file_suffix=="gef":
-                print("不存在wftag")
-                processed_record["start_node"] = "SAW标准分析"
-            elif "wfTag" not in record and file_suffix !="gef":
-                print("不存在wftag且不是gef文件")
-                processed_record["start_node"] = ""
+            if record["dataType"]=="0":
+                processed_record = {}
+                if "name" in record:
+                    processed_record["name"] = record["name"]
+                    file_suffix=record["name"].split(".")[-1]
+                    
+                if "omics" in record:
+                    if "wfTag" in record:
+                        # print("record",record)
+                        print("record：",record["wfTag"])
+                        omics_name_0630= extract_standard_name_str(record["wfTag"])
+                        print("omics_name_0630：",omics_name_0630)
+                        processed_record["omics"] = omics_name_0630
 
-                # processed_record["上一步的节点名称"] = ""
-            # 只添加包含必要字段的记录
-            # if all(key in processed_record for key in ["name", "omics", "wfTag"]):
-            processed_records.append(processed_record)
-
-
+                        if record["wfTag"] in workflow_dict:
+                            processed_record["start_node"] = workflow_dict[record["wfTag"]]
+                        elif file_suffix=="gef":
+                            processed_record["start_node"] = "SAW标准分析"
+                        elif file_suffix=="h5ad":
+                            processed_record["start_node"] = "数据质控分析"
+                        else:
+                            processed_record["start_node"] = ""
+                    else:  # "wfTag" not in record
+                        if file_suffix=="gef":
+                            processed_record["start_node"] = "SAW标准分析"
+                        elif file_suffix=="h5ad":
+                            processed_record["start_node"] = "数据质控分析"
+                        else:
+                            processed_record["start_node"] = ""
+                        processed_record["omics"] = ""
+                else:  # "omics" not in record
+                    if "wfTag" in record:
+                        if record["wfTag"] in workflow_dict:
+                            processed_record["start_node"] = workflow_dict[record["wfTag"]]
+                        elif file_suffix=="gef":
+                            processed_record["start_node"] = "SAW标准分析"
+                        elif file_suffix=="h5ad":
+                            processed_record["start_node"] = "数据质控分析"
+                        else:
+                            processed_record["start_node"] = ""
+                        processed_record["omics"] = ""
+                    else:  # "wfTag" not in record
+                        if file_suffix=="gef":
+                            processed_record["start_node"] = "SAW标准分析"
+                        elif file_suffix=="h5ad":
+                            processed_record["start_node"] = "数据质控分析"
+                        else:
+                            processed_record["start_node"] = ""
+                        processed_record["omics"] = ""
                 
+                # print("processed_record",processed_record)
+                processed_records.append(processed_record)
+
+
+
+        print("processed_records",processed_records)
         if not processed_records:
             return json.dumps({
                 "success": False,
@@ -123,7 +191,7 @@ async def process_data_meatinfo(data_meatinfo: str) -> str:
         return json.dumps({
             "success": True,
             "message": "Success",
-            "data": merge_list_to_dict(processed_records)
+            "data": process_data_0630(processed_records)
         })
         
     except json.JSONDecodeError:

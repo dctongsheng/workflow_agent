@@ -4,7 +4,7 @@ import json
 
 data_meatinfo = {
     "records": [
-        {"name": "1111.gef", "omics": "genomics", "wfTag": "", "is_raw_data": False},
+        {"name": "1111.gef", "omics": "genomics", "wfTag": "SAW-ST-V7-registration(1)", "is_raw_data": False},
         {"name": "input.gef", "omics": "genomics", "wfTag": "","is_raw_data": True}
     ]
 }
