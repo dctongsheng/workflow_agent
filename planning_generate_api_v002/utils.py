@@ -70,7 +70,7 @@ def extract_standard_name(input_str):
     if input_str.startswith("Copy-"):
         input_str = input_str[5:]
     if input_str.endswith("_workflow"):
-        input_str = input_str[:-8]
+        input_str = input_str[:-9]
     
     # 2. 去掉 "(数字)" 后缀
     input_str = re.sub(r'\(\d+\)$', '', input_str)
