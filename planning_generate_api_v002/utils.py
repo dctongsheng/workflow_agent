@@ -69,6 +69,8 @@ def extract_standard_name(input_str):
     # 1. 去掉 "Copy-" 前缀
     if input_str.startswith("Copy-"):
         input_str = input_str[5:]
+    if input_str.endswith("_workflow"):
+        input_str = input_str[:-8]
     
     # 2. 去掉 "(数字)" 后缀
     input_str = re.sub(r'\(\d+\)$', '', input_str)
