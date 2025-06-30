@@ -159,6 +159,9 @@ async def process_data_meatinfo(data_meatinfo: str):
                         processed_record["omics"] = ""
                 else:  # "omics" not in record
                     if "wfTag" in record:
+                        print("wfTag_old:",record["wfTag"])
+                        record["wfTag"]=extract_standard_name(record["wfTag"])
+                        print("wfTag_new:",record["wfTag"])
                         if record["wfTag"] in workflow_dict:
                             processed_record["start_node"] = workflow_dict[record["wfTag"]]
                         elif file_suffix=="gef":
