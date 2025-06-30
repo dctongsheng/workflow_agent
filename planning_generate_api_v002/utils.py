@@ -66,6 +66,7 @@ def extract_standard_name(input_str):
     - 去掉 "(数字)" 后缀（如果存在）
     - 返回剩余部分
     """
+    
     # 1. 去掉 "Copy-" 前缀
     if input_str.startswith("Copy-"):
         input_str = input_str[5:]
@@ -78,14 +79,14 @@ def extract_standard_name(input_str):
     return input_str
 
 def extract_standard_name_str(input_str):
-    new_omics_ = extract_standard_name(input_str)
-    if new_omics_ in app_dict:
-        new_omics_ = app_dict[new_omics_]
+    new_app_name_ = extract_standard_name(input_str)
+    if new_app_name_ in app_dict:
+        new_omics_ = app_dict[new_app_name_]
     else:   
-        print("new_omics_",new_omics_)
-        new_omics_ = "查不到该组学："+new_omics_
+        print("new_omics_",new_app_name_)
+        new_omics_ = "查不到该组学："+new_app_name_
 
-    return new_omics_
+    return new_omics_,new_app_name_
 
 async def process_data_meatinfo(data_meatinfo: str):
     """
@@ -137,11 +138,15 @@ async def process_data_meatinfo(data_meatinfo: str):
                     if "wfTag" in record:
                         # print("record",record)
                         print("record：",record["wfTag"])
-                        omics_name_0630= extract_standard_name_str(record["wfTag"])
+                        omics_name_0630,new_app_name_= extract_standard_name_str(record["wfTag"])
+                        record["wfTag"]=new_app_name_
                         print("omics_name_0630：",omics_name_0630)
+                        print("new_app_name_：",record["wfTag"])
+
                         processed_record["omics"] = omics_name_0630
 
                         if record["wfTag"] in workflow_dict:
+                            
                             processed_record["start_node"] = workflow_dict[record["wfTag"]]
                         elif file_suffix=="gef":
                             processed_record["start_node"] = "SAW标准分析"
