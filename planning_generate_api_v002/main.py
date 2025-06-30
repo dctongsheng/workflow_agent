@@ -104,7 +104,7 @@ async def run_example(meta_info,query):
         start_node=res_dict["data"]["start_node"]
         print("start_node",start_node)
         start_node=start_node
-        data_name=",".join(set(res_dict["data"]["name"]))
+        data_name=res_dict["data"]["name"]
         print("data_name",data_name)
         result = await call_dify_workflow(
             query=query,
