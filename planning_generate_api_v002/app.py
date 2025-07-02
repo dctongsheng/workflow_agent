@@ -127,7 +127,7 @@ async def generate_planning_v002(request: PlanningRequest):
     try:
         # 调用LLM生成工作流计划
         result = await chat_with_api(
-            meta_info={"data_choose":request.data_meatinfo},
+            inputs={"data_choose":request.data_meatinfo},
             query=request.query
         )
 
