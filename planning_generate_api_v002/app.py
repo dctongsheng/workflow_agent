@@ -97,8 +97,8 @@ async def detect_intent(request: IntentDetectionRequest):
                 detail=f"Internal server error: {str(e)}"
             )
 
-@app.post("/planning_generate", response_model=PlanningResponse)
-async def generate_planning(request: PlanningRequest):
+@app.post("/planning_generate_old", response_model=PlanningResponse)
+async def generate_planning_old(request: PlanningRequest):
     try:
         # 调用LLM生成工作流计划
         result = await run_example(
@@ -130,8 +130,8 @@ async def generate_planning(request: PlanningRequest):
                 detail=f"Internal server error: {str(e)}"
             )
     
-@app.post("/planning_generate_v002", response_model=PlanningResponse)
-async def generate_planning_v002(request: PlanningRequest):
+@app.post("/planning_generate", response_model=PlanningResponse)
+async def generate_planning(request: PlanningRequest):
     final_result={}
     try:
         # 调用LLM生成工作流计划
