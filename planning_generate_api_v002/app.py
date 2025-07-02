@@ -11,7 +11,9 @@ from main import run_example
 from auto_param_filler import get_filled_parameters
 from example import get_auto_fill_parameters
 from call_dify import chat_with_api
-from neo4j_search_node import search_node_by_contain_relationship,get_node_dependon
+from neo4j_search_node import search_node_by_contain_relationship
+from main import get_node_dependon
+
 app = FastAPI(
     title="Workflow Planning API",
     description="API for generating workflow plans using LLM",
