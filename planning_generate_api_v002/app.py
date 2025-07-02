@@ -10,6 +10,7 @@ from intent_detection import detect_bioinformatics_intent
 from main import run_example
 from auto_param_filler import get_filled_parameters
 from example import get_auto_fill_parameters
+from call_dify import chat_with_api
 app = FastAPI(
     title="Workflow Planning API",
     description="API for generating workflow plans using LLM",
@@ -91,21 +92,42 @@ async def detect_intent(request: IntentDetectionRequest):
 @app.post("/planning_generate", response_model=PlanningResponse)
 async def generate_planning(request: PlanningRequest):
     try:
-        # 处理data_meatinfo
-        # print("request.data_meatinfo",json.dumps(request.data_meatinfo))
-        # processed_meta = await process_data_meatinfo(json.dumps(request.data_meatinfo))
-        # processed_meta_json = json.loads(processed_meta)
-        # # print(processed_meta_json)
-        
-        # if not processed_meta_json["success"]:
-        #     raise HTTPException(
-        #         status_code=400,
-        #         detail=processed_meta_json["message"]
-        #     )
-
         # 调用LLM生成工作流计划
         result = await run_example(
             meta_info=request.data_meatinfo,
+            query=request.query
+        )
+
+        return PlanningResponse(
+            code=200,
+            message="Success",
+            structured_output=result
+        )
+    except HTTPException as he:
+        raise he
+    except Exception as e:
+        if "API key" in str(e):
+            raise HTTPException(
+                status_code=401,
+                detail="Invalid API key"
+            )
+        elif "rate limit" in str(e).lower():
+            raise HTTPException(
+                status_code=429,
+                detail="Rate limit exceeded"
+            )
+        else:
+            raise HTTPException(
+                status_code=500,
+                detail=f"Internal server error: {str(e)}"
+            )
+    
+@app.post("/planning_generate_v002", response_model=PlanningResponse)
+async def generate_planning_v002(request: PlanningRequest):
+    try:
+        # 调用LLM生成工作流计划
+        result = await chat_with_api(
+            meta_info={"data_choose":request.data_meatinfo},
             query=request.query
         )
 
