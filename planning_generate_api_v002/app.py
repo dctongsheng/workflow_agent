@@ -11,6 +11,7 @@ from main import run_example
 from auto_param_filler import get_filled_parameters
 from example import get_auto_fill_parameters
 from call_dify import chat_with_api
+from neo4j_search_node import search_node_by_contain_relationship,get_node_dependon
 app = FastAPI(
     title="Workflow Planning API",
     description="API for generating workflow plans using LLM",
@@ -124,18 +125,49 @@ async def generate_planning(request: PlanningRequest):
     
 @app.post("/planning_generate_v002", response_model=PlanningResponse)
 async def generate_planning_v002(request: PlanningRequest):
+    final_result={}
     try:
         # 调用LLM生成工作流计划
 
-        result = await chat_with_api(
+        result_dify = await chat_with_api(
             inputs={"data_choose":json.dumps(request.data_meatinfo)},
             query=request.query
         )
+        result_dify=json.loads(result_dify["answer"])
+        dify_result=result_dify["structured_output"]["required_steps"]
+        n=0
+        print("dify_result",dify_result)
+        print("dify_result",len(dify_result))
+        final_result_list=[] 
 
+        for i in dify_result:
+            app_nodes=search_node_by_contain_relationship(i)
+            i_dict={}
+            i_dict["title"]=app_nodes["node_name"]
+            i_dict["step"]=n
+            i_dict["previous_step"]=get_node_dependon(graph,app_nodes["model_id"])
+            if app_nodes["nodes_app"] != {}:
+                i_dict["name"]=app_nodes["nodes_app"]["target_properties"]["workflow_name"]
+                i_dict["oid"]=app_nodes["nodes_app"]["target_properties"]["workflow_id"]
+                i_dict["description"]=i["nodes_app"]["target_properties"]["summary_short"]
+                i_dict["input"]=i["nodes_app"]["target_properties"]["input_files"]
+                i_dict["output"]=i["nodes_app"]["target_properties"]["output_files"]
+                final_result_list.append(i_dict)
+                
+            else:
+                i_dict["name"]=""
+                i_dict["oid"]=""
+                i_dict["description"]=""
+                i_dict["input"]=""
+                i_dict["output"]=""
+                final_result_list.append(i_dict)
+            n+=1
+
+        final_result["planning_steps"]=final_result_list
         return PlanningResponse(
             code=200,
             message="Success",
-            structured_output=result
+            structured_output=final_result           
         )
     except HTTPException as he:
         raise he
