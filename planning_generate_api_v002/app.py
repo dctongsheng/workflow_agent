@@ -13,6 +13,11 @@ from example import get_auto_fill_parameters
 from call_dify import chat_with_api
 from neo4j_search_node import search_node_by_contain_relationship
 from main import get_node_dependon
+from py2neo import Graph
+from typing import Optional, List, Dict, Any, Union
+
+# 连接到Neo4j数据库
+graph = Graph("bolt://172.28.140.214:7687", auth=("neo4j", "f012464998"))
 
 app = FastAPI(
     title="Workflow Planning API",
