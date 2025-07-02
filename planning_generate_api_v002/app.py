@@ -148,6 +148,7 @@ async def generate_planning_v002(request: PlanningRequest):
         final_result_list=[] 
 
         for i in dify_result:
+            i["model_id"]=int(i["model_id"])
             app_nodes=search_node_by_contain_relationship(i)
             i_dict={}
             i_dict["title"]=app_nodes["node_name"]
