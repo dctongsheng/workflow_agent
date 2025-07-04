@@ -6,7 +6,7 @@ from typing import Optional, Dict, Any, List, Union
 import uvicorn
 from utils import process_data_meatinfo
 import json
-from intent_detection import detect_bioinformatics_intent
+# from intent_detection import detect_bioinformatics_intent
 from main import run_example
 from auto_param_filler import get_filled_parameters
 from example import get_auto_fill_parameters
@@ -15,6 +15,7 @@ from neo4j_search_node import search_node_by_contain_relationship
 from main import get_node_dependon
 from py2neo import Graph
 from typing import Optional, List, Dict, Any, Union
+from base_call_dify_workflow import intent_detection
 
 # 连接到Neo4j数据库
 graph = Graph("bolt://172.28.140.214:7687", auth=("neo4j", "f012464998"))
@@ -72,7 +73,7 @@ async def detect_intent(request: IntentDetectionRequest):
     """
     try:
         # 调用意图识别函数
-        intent_result = await detect_bioinformatics_intent(request.query)
+        intent_result = await intent_detection(request.query)
         
         return IntentDetectionResponse(
             code=200,
