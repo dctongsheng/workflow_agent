@@ -84,3 +84,4 @@ def is_bioinformatics_related(intent_result: int) -> bool:
         bool: True表示相关，False表示不相关
     """
     return intent_result == 1 
+

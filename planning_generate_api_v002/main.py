@@ -9,7 +9,7 @@ from typing import Optional, List, Dict, Any, Union
 import json
 
 # 连接到Neo4j数据库
-graph = Graph("bolt://172.28.140.214:7687", auth=("neo4j", "f012464998"))
+graph = Graph("bolt://10.176.160.201:7687", auth=("stomics", "W867M3Goqzpfry6Z"))
 from py2neo import Graph
 from typing import Optional, List, Dict, Any, Union
 

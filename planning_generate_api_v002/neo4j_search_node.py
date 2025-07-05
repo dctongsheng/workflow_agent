@@ -9,7 +9,7 @@ logger = logging.getLogger(__name__)
 def connect_to_neo4j():
     """连接到Neo4j数据库"""
     try:
-        return Graph("bolt://172.28.140.214:7687", auth=("neo4j", "f012464998"))
+        return Graph("bolt://10.176.160.201:7687", auth=("stomics", "W867M3Goqzpfry6Z"))
     except Exception as e:
         logger.error(f"连接Neo4j失败: {e}")
         raise
