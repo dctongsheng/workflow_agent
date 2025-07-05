@@ -166,4 +166,4 @@ async def query_nodes_by_label_get(label: str):
         raise HTTPException(status_code=500, detail=f"服务器内部错误: {str(e)}")
 
 if __name__ == "__main__":
-    uvicorn.run(app, host="0.0.0.0", port=8001)
+    uvicorn.run(app, host="0.0.0.0", port=10104)
