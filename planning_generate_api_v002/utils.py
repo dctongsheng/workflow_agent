@@ -219,7 +219,7 @@ async def process_data_meatinfo(data_meatinfo: str):
 
 def connect_to_neo4j():
     """连接到Neo4j数据库"""
-    return Graph("bolt://10.176.160.201:7687", auth=("stomics", "W867M3Goqzpfry6Z"))
+    return Graph("bolt://10.224.28.80:10105", auth=("neo4j", "f012464998"))
 
 def query_omics_scenario_nodes_and_relationships():
     """

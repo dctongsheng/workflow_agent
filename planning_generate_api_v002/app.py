@@ -18,7 +18,7 @@ from typing import Optional, List, Dict, Any, Union
 from base_call_dify_workflow import intent_detection
 
 # 连接到Neo4j数据库
-graph = Graph("bolt://10.176.160.201:7687", auth=("stomics", "W867M3Goqzpfry6Z"))
+graph = Graph("bolt://10.224.28.80:10105", auth=("neo4j", "f012464998"))
 
 app = FastAPI(
     title="Workflow Planning API",

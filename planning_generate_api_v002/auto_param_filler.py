@@ -64,8 +64,8 @@ class AutoParamFiller:
     
     def __init__(
         self, 
-        base_url: str = "http://172.28.140.214", 
-        api_key: str = "app-I9zUYHi9izQnqdDBZ5Z0cGx6"
+        base_url: str = "http://120.76.217.102", 
+        api_key: str = "app-0ExkaEens8hXSt6dHPZ2zeBf"
     ):
         self.base_url = base_url.rstrip('/')
         self.api_key = api_key

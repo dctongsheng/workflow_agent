@@ -12,7 +12,7 @@ app = FastAPI(
 )
 
 # 连接到 Neo4j 数据库
-graph = Graph("bolt://10.176.160.201:7687", auth=("stomics", "W867M3Goqzpfry6Z"))
+graph = Graph("bolt://10.224.28.80:10105", auth=("neo4j", "f012464998"))
 
 # 请求模型
 class LabelRequest(BaseModel):

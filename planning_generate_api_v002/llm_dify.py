@@ -10,7 +10,7 @@ import json
 # from find_first_node.utils import find_first_node
 
 # 连接到Neo4j数据库
-graph = Graph("bolt://10.176.160.201:7687", auth=("stomics", "W867M3Goqzpfry6Z"))
+graph = Graph("bolt://10.224.28.80:10105", auth=("neo4j", "f012464998"))
 
 def query_nodes_by_label(label):
     """
